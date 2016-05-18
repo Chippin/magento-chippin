@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Chippin_ChippinPayment>
+            <version>0.1.0</version>
+        </Chippin_ChippinPayment>
+    </modules>
+    <frontend>
+        <routers>
+            <chippinpayment>
+                <use>standard</use>
+                <args>
+                    <module>Chippin_ChippinPayment</module>
+                    <frontName>chippinpayment</frontName>
+                </args>
+            </chippinpayment>
+        </routers>
+		<layout>
+		    <updates>
+			    <chippinpayment>
+			        <file>chippinpayment.xml</file>
+			    </chippinpayment>
+		    </updates>
+		</layout>
+    </frontend>
+    <global>
+        <sales>
+	        <order>
+	            <statuses>
+		            <chippin translate="label"><label>Chippin</label></chippin>
+	            </statuses>
+	            <states>
+		            <pending_payment>
+		                <statuses>
+			                <chippin />
+		                </statuses>
+		            </pending_payment>
+	            </states>
+	        </order>
+        </sales>
+        <helpers>
+            <chippinpayment>
+                <class>Chippin_ChippinPayment_Helper</class>
+            </chippinpayment>
+        </helpers>
+	    <blocks>
+	        <chippinpayment>
+		        <class>Chippin_ChippinPayment_Block</class>
+	        </chippinpayment>
+	    </blocks>
+    </global>
+</config>
