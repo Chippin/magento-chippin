@@ -3,7 +3,11 @@
 docker-compose up -d
 ID=`docker ps -aqf "name=magentochippin_web_1"`
 
+sleep 2
+
 docker exec -it $ID install-sampledata
+
+sleep 2
+
 docker exec -it $ID install-magento
-docker exec -it $ID 'bash cd /var/www/htdocs && modman init'
-docker exec -it $ID 'modman link /var/chippin'
+docker exec -it $ID link-module
