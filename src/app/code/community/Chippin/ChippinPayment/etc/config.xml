@@ -38,6 +38,11 @@
 	            </states>
 	        </order>
         </sales>
+        <models>
+            <chippinpayment>
+                <class>Chippin_ChippinPayment_Model</class>
+            </chippinpayment>
+        </models>
         <helpers>
             <chippinpayment>
                 <class>Chippin_ChippinPayment_Helper</class>
@@ -48,5 +53,20 @@
 		        <class>Chippin_ChippinPayment_Block</class>
 	        </chippinpayment>
 	    </blocks>
+        <payment>
+            <groups>
+                <chippinpayment>ChippinPayment</chippinpayment>
+            </groups>
+        </payment>
     </global>
+    <default>
+        <payment>
+            <chippinpayment>
+                <testing_endpoint>https://chippin.co.uk/sandbox/new</testing_endpoint>
+                <live_endpoint>https://chippin.co.uk/new</live_endpoint>
+                <active>0</active>
+                <model>chippinpayment/payment_method</model>
+            </chippinpayment>
+        </payment>
+    </default>
 </config>

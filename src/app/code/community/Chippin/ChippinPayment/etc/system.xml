@@ -3,7 +3,7 @@
 	<sections>
 		<payment>
 			<groups>
-			    <chippin_payment translate="label,comment" module="chippinpayment">
+			    <chippinpayment translate="label,comment" module="chippinpayment">
 					<label>Chippin</label>
 					<frontend_type>text</frontend_type>
 					<sort_order>2000</sort_order>
@@ -39,7 +39,7 @@
 							<comment>Your unique secret token</comment>
 						</secret>
 					</fields>
-			    </chippin_payment>
+			    </chippinpayment>
 			</groups>
 		</payment>
 	</sections>
