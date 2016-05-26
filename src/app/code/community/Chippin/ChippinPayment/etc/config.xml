@@ -62,10 +62,13 @@
     <default>
         <payment>
             <chippinpayment>
-                <testing_endpoint>https://chippin.co.uk/sandbox/new</testing_endpoint>
-                <live_endpoint>https://chippin.co.uk/new</live_endpoint>
                 <active>0</active>
                 <model>chippinpayment/payment_method</model>
+                <sandbox>1</sandbox>
+                <sandbox_endpoint>https://chippin.co.uk/sandbox/new</sandbox_endpoint>
+                <live_endpoint>https://chippin.co.uk/new</live_endpoint>
+                <title>Cippin</title>
+                <duration>48</duration>
             </chippinpayment>
         </payment>
     </default>
