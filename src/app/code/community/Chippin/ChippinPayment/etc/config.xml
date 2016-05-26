@@ -67,7 +67,7 @@
                 <sandbox>1</sandbox>
                 <sandbox_endpoint>https://chippin.co.uk/sandbox/new</sandbox_endpoint>
                 <live_endpoint>https://chippin.co.uk/new</live_endpoint>
-                <title>Cippin</title>
+                <title>Chippin</title>
                 <duration>48</duration>
             </chippinpayment>
         </payment>

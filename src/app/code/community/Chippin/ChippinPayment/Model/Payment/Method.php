@@ -4,28 +4,16 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
 
     protected $_code  = 'chippinpayment';
     protected $_formBlockType = 'chippinpayment/form_payment';
-    protected $_infoBlockType = 'chippinpayment/info_payment';
+    // protected $_infoBlockType = 'chippinpayment/info_payment';
 
     /**
      * Payment Method features
      * @var bool
      */
-    // protected $_isGateway                   = false;
-    protected $_canOrder                    = true;
-    protected $_canAuthorize                = true;
-    protected $_canCapture                  = true;
-    // protected $_canCapturePartial           = false;
-    // protected $_canCaptureOnce              = false;
-    // protected $_canRefund                   = false;
-    // protected $_canRefundInvoicePartial     = false;
-    // protected $_canVoid                     = false;
     protected $_canUseInternal              = false;
     protected $_canUseCheckout              = true;
     protected $_canUseForMultishipping      = false;
     // protected $_isInitializeNeeded          = false;
-    // protected $_canFetchTransactionInfo     = false;
-    // protected $_canReviewPayment            = false;
-    // protected $_canCreateBillingAgreement   = false;
     protected $_canManageRecurringProfiles  = false;
 
     public function validate()
@@ -33,16 +21,22 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
         parent::validate();
         $info = $this->getInfoInstance();
 
-        if (!$info->getCustomFieldOne())
+        if (!$info->getFirstName())
         {
             $errorCode = 'invalid_data';
-            $errorMsg = $this->_getHelper()->__("CustomFieldOne is a required field.\n");
+            $errorMsg = $this->_getHelper()->__("First name is a required field.\n");
         }
 
-        if (!$info->getCustomFieldTwo())
+        if (!$info->getLastName())
         {
             $errorCode = 'invalid_data';
-            $errorMsg .= $this->_getHelper()->__('CustomFieldTwo is a required field.');
+            $errorMsg .= $this->_getHelper()->__('Last name is a required field.');
+        }
+
+        if (!$info->getEmail())
+        {
+            $errorCode = 'invalid_data';
+            $errorMsg .= $this->_getHelper()->__('Email is a required field.');
         }
 
         if ($errorMsg)

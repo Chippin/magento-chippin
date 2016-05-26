@@ -3,9 +3,10 @@
 	<sections>
 		<payment>
 			<groups>
-			    <chippinpayment translate="label,comment" module="chippinpayment">
+			    <chippinpayment translate="label" module="chippinpayment">
 					<label>Chippin</label>
 					<frontend_type>text</frontend_type>
+					<expanded>1</expanded>
 					<sort_order>2000</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>1</show_in_website>
@@ -20,7 +21,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</active>
-	                    <merchant_id translate="label">
+	                    <merchant_id translate="label comment">
 		                    <label>Merchant ID</label>
 							<frontend_type>text</frontend_type>
 		                    <sort_order>20</sort_order>
@@ -29,7 +30,7 @@
 		                    <show_in_store>1</show_in_store>
 							<comment>Your unique merchant ID</comment>
 						</merchant_id>
-						<secret translate="label">
+						<secret translate="label comment">
 		                    <label>Secret</label>
 							<frontend_type>password</frontend_type>
 		                    <sort_order>30</sort_order>
@@ -55,7 +56,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><sandbox>1</sandbox></depends>
+                            <!-- <depends><sandbox>1</sandbox></depends> -->
                         </sandbox_endpoint>
 						<live_endpoint translate="label comment">
                             <label>Live API URL</label>
@@ -65,7 +66,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><sandbox>0</sandbox></depends>
+                            <!-- <depends><sandbox>0</sandbox></depends> -->
                         </live_endpoint>
 						<order_status translate="label">
                             <label>New Order Status</label>
@@ -93,7 +94,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </title>
-						<duration translate="label">
+						<duration translate="label comment">
 		                    <label>Duration (hours)</label>
 							<frontend_type>text</frontend_type>
 		                    <sort_order>100</sort_order>
@@ -122,7 +123,7 @@
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </specificcountry>
-						<min_order_total translate="label">
+						<min_order_total translate="label comment">
                             <label>Minimum Order Total</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>130</sort_order>
@@ -131,7 +132,7 @@
                             <show_in_store>0</show_in_store>
 							<comment>Minimum order value for Chippin to be available as a payment option.</comment>
                         </min_order_total>
-                        <max_order_total translate="label">
+                        <max_order_total translate="label comment">
                             <label>Maximum Order Total</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>140</sort_order>
@@ -140,6 +141,14 @@
                             <show_in_store>0</show_in_store>
 							<comment>Maximum order value for Chippin to be available as a payment option.</comment>
                         </max_order_total>
+						<chippin_notice translate="label" module="chippinpayment">
+							<frontend_model>chippinpayment/adminhtml_system_config_fieldset_hint</frontend_model>
+							<signup_link>https://chippin.co.uk</signup_link>
+							<sort_order>150</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</chippin_notice>
 					</fields>
 			    </chippinpayment>
 			</groups>
