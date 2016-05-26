@@ -2,3 +2,4 @@
 
 docker-compose stop
 docker-compose rm --force
+docker rmi magentochippin_web:latest
