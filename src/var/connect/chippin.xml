@@ -1,5 +1,5 @@
 <_>
-   <form_key>nHUvA4WAao3a0KPc</form_key>
+   <form_key>bKeRWkuY9g59H2zX</form_key>
    <name>ChippinPayment</name>
    <channel>community</channel>
    <version_ids>
@@ -27,7 +27,7 @@ Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into an
          <email>alistair_stead@me.com</email>
       </email>
    </authors>
-   <depends_php_min>5.5.31</depends_php_min>
+   <depends_php_min>5.5.0</depends_php_min>
    <depends_php_max>7.0.0</depends_php_max>
    <depends>
       <package>
@@ -44,7 +44,7 @@ Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into an
             <max/>
          </max>
          <files>
-            <files>          </files>
+            <files>                   </files>
          </files>
       </package>
       <extension>
@@ -64,23 +64,38 @@ Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into an
          <target>magelocal</target>
          <target>magecommunity</target>
          <target>magelib</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>mageetc</target>
       </target>
       <path>
          <path/>
-         <path>app/code/community/Chippin/ChippinPayment</path>
-         <path>lib/Chippin</path>
+         <path>Chippin/ChippinPayment</path>
+         <path>Chippin</path>
+         <path>frontend/base/default/template/chippinpayment</path>
+         <path>adminhtml/default/default/template/chippinpayment</path>
+         <path>modules/Chippin_ChippinPayment.xml</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
          <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>file</type>
       </type>
       <include>
          <include/>
          <include/>
          <include/>
+         <include/>
+         <include/>
+         <include>*</include>
       </include>
       <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
          <ignore/>
          <ignore/>
          <ignore/>
