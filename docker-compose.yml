@@ -8,6 +8,7 @@ web:
     - env
   volumes:
     - .:/var/chippin
+    - ./src/var/connect:/var/www/htdocs/var/connect
 
 mysql:
   image: mysql:5.6.23
