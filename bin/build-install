@@ -11,3 +11,5 @@ sleep 2
 
 docker exec -it $ID install-magento
 docker exec -it $ID link-module
+docker exec -it $ID n98-magerun dev:log --on --global
+docker exec -it $ID n98-magerun dev:symlinks --on --global
