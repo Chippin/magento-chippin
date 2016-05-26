@@ -2,7 +2,7 @@
 end_of_line = lf
 insert_final_new_line = true
 
-[*.{xml,php}]
+[*.{xml,php,phtml}]
 indent_style = space
 indent_size = 4
 
