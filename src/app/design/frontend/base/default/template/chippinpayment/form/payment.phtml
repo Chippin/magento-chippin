@@ -1,0 +1,36 @@
+<?php $_code = $this->getMethodCode() ?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <label for="<?php echo $_code ?>_first_name" class="required"><em>*</em><?php echo $this->__('First name') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_first_name" title="<?php echo $this->__('First name') ?>" name="payment[first_name]" value="<?php echo $this->htmlEscape($this->getInfoData('first_name')) ?>" class="required-entry"/>
+        </div>
+    </li>
+
+    <li>
+        <label for="<?php echo $_code ?>_last_name" class="required"><em>*</em><?php echo $this->__('Last name') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_last_name" title="<?php echo $this->__('Last name') ?>" name="payment[last_name]" value="<?php echo $this->htmlEscape($this->getInfoData('last_name')) ?>" class="required-entry"/>
+        </div>
+    </li>
+
+    <li>
+        <label for="<?php echo $_code ?>_email" class="required"><em>*</em><?php echo $this->__('Email') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_email" title="<?php echo $this->__('Email') ?>" name="payment[email]" value="<?php echo $this->htmlEscape($this->getInfoData('email')) ?>" class="required-entry validate-email"/>
+        </div>
+    </li>
+
+    <li class="chippin-footer">
+        <div class="chippin-footer-inner">
+            <div class="chippin-footer-badge">
+              Powered by<br>
+              <img class="chippin-logo" width="88" src="https://s3-eu-west-1.amazonaws.com/chippin-assets/chippin.png" alt="Chippin">
+            </div>
+            <div class="chippin-footer-badge">
+                Secured by<br>
+                <img class="chippin-logo" width="88" src="https://s3-eu-west-1.amazonaws.com/chippin-assets/stripe.png" alt="Stripe">
+            </div>
+        </div>
+    </li>
+</ul>
