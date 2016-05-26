@@ -38,6 +38,15 @@
 		                    <show_in_store>1</show_in_store>
 							<comment>Your unique secret token</comment>
 						</secret>
+						<duration translate="label">
+		                    <label>Duration</label>
+							<frontend_type>text</frontend_type>
+		                    <sort_order>40</sort_order>
+		                    <show_in_default>1</show_in_default>
+		                    <show_in_website>1</show_in_website>
+		                    <show_in_store>1</show_in_store>
+							<comment>This is the number of hours you wish the 'chippin' to last before it times out.</comment>
+						</duration>
 					</fields>
 			    </chippinpayment>
 			</groups>
