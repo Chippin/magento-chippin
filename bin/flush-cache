@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ID=`docker ps -aqf "name=magentochippin_web_1"`
+
+docker exec -it $ID n98-magerun cache:flush
