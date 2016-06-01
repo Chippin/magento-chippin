@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Chippin_ChippinPayment>
-            <version>0.1.1</version>
+            <version>0.1.0</version>
         </Chippin_ChippinPayment>
     </modules>
     <frontend>
@@ -11,7 +11,7 @@
                 <use>standard</use>
                 <args>
                     <module>Chippin_ChippinPayment</module>
-                    <frontName>chippinpayment</frontName>
+                    <frontName>chippin</frontName>
                 </args>
             </chippinpayment>
         </routers>
@@ -24,25 +24,19 @@
 		</layout>
     </frontend>
     <global>
-        <sales>
-	        <order>
-	            <statuses>
-		            <chippin translate="label"><label>Chippin</label></chippin>
-	            </statuses>
-	            <states>
-		            <pending_payment>
-		                <statuses>
-			                <chippin />
-		                </statuses>
-		            </pending_payment>
-	            </states>
-	        </order>
-        </sales>
         <models>
             <chippinpayment>
                 <class>Chippin_ChippinPayment_Model</class>
             </chippinpayment>
         </models>
+        <resources>
+            <chippinpayment_setup>
+                <setup>
+                    <module>Chippin_ChippinPayment</module>
+                    <class>Chippin_ChippinPayment_Model_Resource_Setup</class>
+                </setup>
+            </chippinpayment_setup>
+        </resources>
         <helpers>
             <chippinpayment>
                 <class>Chippin_ChippinPayment_Helper</class>

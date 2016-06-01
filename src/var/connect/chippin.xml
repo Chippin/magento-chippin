@@ -13,7 +13,7 @@ At the end of your checkout process, you redirect to Chippin with the basic deta
 Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into any merchant’s online checkout. It enables consumers to easily split the cost of an online transaction safely and securely to their own and the merchant’s benefit.</description>
    <license>Apache 2.0</license>
    <license_uri/>
-   <version>0.1.1</version>
+   <version>0.1.0</version>
    <stability>stable</stability>
    <notes>Initial stable release</notes>
    <authors>
