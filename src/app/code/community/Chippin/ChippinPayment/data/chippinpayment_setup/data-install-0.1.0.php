@@ -3,8 +3,6 @@ $installer = $this;
 $connection = $installer->getConnection();
 $installer->startSetup();
 
-Mage::log('Installing Chippin oder statuses');
-
 $data = array(
     array('status' => 'chippin_pending_payment', 'label' => 'Chippin Pending'),
     array('status' => 'chippin_pending_completion', 'label' => 'Chippin Incomplete'),
