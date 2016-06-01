@@ -6,6 +6,9 @@
         </Chippin_ChippinPayment>
     </modules>
     <frontend>
+        <secure_url>
+            <chippin_standard>/chippin/standard</chippin_standard>
+        </secure_url>
         <routers>
             <chippinpayment>
                 <use>standard</use>
