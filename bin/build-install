@@ -8,7 +8,9 @@ sleep 4
 docker exec -it $ID install-sampledata
 docker exec -it $ID install-magento
 docker exec -it $ID link-module
-docker exec -it $ID n98-magerun dev:log --on --global
-docker exec -it $ID n98-magerun dev:symlinks --on --global
+docker exec -it $ID n98-magerun dev:log --on --global --skip-root-check
+docker exec -it $ID n98-magerun dev:symlinks --on --global --skip-root-check
+docker exec -it $ID n98-magerun config:set payment/chippinpayment/active 1 --skip-root-check
+docker exec -it $ID n98-magerun cache:flush --skip-root-check
 
 open "http://chippin.dev"
