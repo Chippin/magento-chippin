@@ -21,24 +21,10 @@
         </div>
     </li>
     <li>
-        <?php echo $this->getHrefChippinCancel() ?>
+        <strong>Integrtion Urls</strong><br/>
+        Enter these into the Chippin configuration screen.
     </li>
-    <li>
-        <?php echo $this->getHrefChippinComplete() ?>
-    </li>
-    <li>
-        <?php echo $this->getHrefChippinContribute() ?>
-    </li>
-    <li>
-        <?php echo $this->getHrefChippinFail() ?>
-    </li>
-    <li>
-        <?php echo $this->getHrefChippinInvite() ?>
-    </li>
-    <li>
-        <?php echo $this->getHrefChippinRejecte() ?>
-    </li>
-    <li>
-        <?php echo $this->getHrefChippinTimeout() ?>
-    </li>
+    <?php foreach ($this->getIntegrationUrls() as $label => $url) { ?>
+    <li><?php echo $label; ?>: <?php echo $url; ?></li>
+    <?php } ?>
 </ul>
