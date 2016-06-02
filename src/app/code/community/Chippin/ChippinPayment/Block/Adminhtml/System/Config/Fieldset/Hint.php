@@ -16,13 +16,14 @@ class Chippin_ChippinPayment_Block_Adminhtml_System_Config_Fieldset_Hint
     {
         $oUrl = Mage::getModel('core/url');
         $params = array('_secure' => true);
-        $this->setHrefChippinCancelled($oUrl->getUrl("chippin/standard/cancelled", $params));
-        $this->setHrefChippinCompleted($oUrl->getUrl("chippin/standard/completed", $params));
-        $this->setHrefChippinContributed($oUrl->getUrl("chippin/standard/contributed", $params));
-        $this->setHrefChippinFailed($oUrl->getUrl("chippin/standard/failed", $params));
-        $this->setHrefChippinInvited($oUrl->getUrl("chippin/standard/invited", $params));
-        $this->setHrefChippinRejected($oUrl->getUrl("chippin/standard/rejected", $params));
-        $this->setHrefChippinTimedout($oUrl->getUrl("chippin/standard/timedout", $params));
+        // @TODO change this to key => value atray to simplify the template
+        $this->setHrefChippinCancel($oUrl->getUrl("chippin/standard/cancel", $params));
+        $this->setHrefChippinComplete($oUrl->getUrl("chippin/standard/complete", $params));
+        $this->setHrefChippinContribute($oUrl->getUrl("chippin/standard/contribute", $params));
+        $this->setHrefChippinFail($oUrl->getUrl("chippin/standard/fail", $params));
+        $this->setHrefChippinInvite($oUrl->getUrl("chippin/standard/invite", $params));
+        $this->setHrefChippinRejecte($oUrl->getUrl("chippin/standard/rejecte", $params));
+        $this->setHrefChippinTimeout($oUrl->getUrl("chippin/standard/timeout", $params));
 
 
         $elementOriginalData = $element->getOriginalData();
