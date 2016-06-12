@@ -27,6 +27,16 @@
 		</layout>
     </frontend>
     <global>
+        <events>
+            <resource_get_tablename>
+                <observers>
+                    <chippinpayment>
+                        <class>chippinpayment/autoloader</class>
+                        <method>register</method>
+                    </chippinpayment>
+                </observers>
+            </resource_get_tablename>
+        </events>
         <models>
             <chippinpayment>
                 <class>Chippin_ChippinPayment_Model</class>

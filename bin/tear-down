@@ -3,3 +3,4 @@
 docker-compose stop
 docker-compose rm --force
 docker rmi magentochippin_web:latest
+docker volume rm $(docker volume ls -qf dangling=true)

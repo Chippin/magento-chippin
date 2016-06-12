@@ -11,6 +11,8 @@ docker exec -it $ID link-module
 docker exec -it $ID n98-magerun dev:log --on --global --skip-root-check
 docker exec -it $ID n98-magerun dev:symlinks --on --global --skip-root-check
 docker exec -it $ID n98-magerun config:set payment/chippinpayment/active 1 --skip-root-check
+docker exec -it $ID n98-magerun config:set payment/chippinpayment/merchant_id 10 --skip-root-check
+docker exec -it $ID n98-magerun config:set payment/chippinpayment/secret 43063735d31252bc931bebe37e89852659a38f19 --skip-root-check
 docker exec -it $ID n98-magerun cache:flush --skip-root-check
 
 open "http://chippin.dev"
