@@ -39,7 +39,7 @@ $mappingData = array(
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_canceled',
+        'status' => 'chippin_cancelled',
         'state' => 'canceled',
         'is_default' => 0
     )

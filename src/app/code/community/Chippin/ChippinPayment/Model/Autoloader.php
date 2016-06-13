@@ -1,6 +1,6 @@
 <?php
 
-class Chippin_ChippinPayment_Model_Observer
+class Chippin_ChippinPayment_Model_Autoloader
 {
     const SDK_LIB_PATH = 'Chippin';
     const CONVERT_CLASS_TO_PATH_REGEX = '#\\\|_(?!.*\\\)#';

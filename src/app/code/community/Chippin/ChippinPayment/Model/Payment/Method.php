@@ -113,6 +113,9 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
         $subTotal = intval($order->getSubtotal() * 100);
         $shippingHandling = $grandTotal - $subTotal;
 
+        $merchant = new Merchant($this->getConfig()->getMerchantId(), $this->getConfig()->getSecret());
+        $chippin = new Chippin($merchant);
+
         $fields =  $this->decorateWithHash(array(
             'merchant_id' => $this->getConfig()->getMerchantId(),
             'merchant_order_id' => $orderIncrementId,
