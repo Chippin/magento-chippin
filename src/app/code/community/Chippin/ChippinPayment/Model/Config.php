@@ -22,4 +22,9 @@ class Chippin_ChippinPayment_Model_Config {
         return Mage::getStoreConfig('payment/chippinpayment/duration');
     }
 
+    public function getGracePeriod()
+    {
+        return Mage::getStoreConfig('paument/chippinpayment/grace_period');
+    }
+
 }

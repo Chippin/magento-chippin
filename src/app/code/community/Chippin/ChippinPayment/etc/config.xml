@@ -24,7 +24,7 @@
 			        <file>chippinpayment.xml</file>
 			    </chippinpayment>
 		    </updates>
-		</layout>
+        </layout>
     </frontend>
     <global>
         <events>
@@ -76,6 +76,7 @@
                 <live_endpoint>https://chippin.co.uk/new</live_endpoint>
                 <title>Chippin</title>
                 <duration>48</duration>
+                <grace_period>48</grace_period>
             </chippinpayment>
         </payment>
     </default>

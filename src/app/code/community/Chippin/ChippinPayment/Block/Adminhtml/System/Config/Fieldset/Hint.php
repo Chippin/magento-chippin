@@ -17,7 +17,7 @@ class Chippin_ChippinPayment_Block_Adminhtml_System_Config_Fieldset_Hint
         $oUrl = Mage::getModel('core/url');
         $params = array('_secure' => true);
         $integrationUrls = array(
-            'Cancelled' => $oUrl->getUrl("chippin/standard/cancelled", $params),
+            'Canceled' => $oUrl->getUrl("chippin/standard/canceled", $params),
             'Completed' => $oUrl->getUrl("chippin/standard/completed", $params),
             'Contributed' => $oUrl->getUrl("chippin/standard/contributed", $params),
             'Failed' => $oUrl->getUrl("chippin/standard/failed", $params),

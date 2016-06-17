@@ -3,13 +3,14 @@
 class Chippin_ChippinPayment_Helper_Checkout extends Mage_Core_Helper_Abstract
 {
     /**
-     * Restore last active quote based on checkout session
+     * Restore active quote based on order
+     *
+     * @param order Mage_Sales_Model_Order 
      *
      * @return bool True if quote restored successfully, false otherwise
      */
-    public function restoreQuote()
+    public function restoreQuote($order)
     {
-        $order = $this->_getCheckoutSession()->getLastRealOrder();
         if ($order->getId()) {
             $quote = $this->_getQuote($order->getQuoteId());
             if ($quote->getId()) {
@@ -32,7 +33,7 @@ class Chippin_ChippinPayment_Helper_Checkout extends Mage_Core_Helper_Abstract
      *
      * @param string $comment Comment appended to order history
      *
-     * @return bool True if order cancelled, false otherwise
+     * @return bool True if order canceled, false otherwise
      */
     public function cancelCurrentOrder($comment)
     {

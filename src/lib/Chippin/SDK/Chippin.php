@@ -6,6 +6,32 @@ class Chippin
 {
     private $merchant;
 
+    /**
+     * Interface for chippin creation specific fields
+     * @var array
+     */
+    protected $_orderFields = array(
+        'merchant_id', 'merchant_order_id', 'total_amount', 'first_name', 'last_name', 'email', 'duration', 'grace_period', 'currency_code', 'hmac'
+    );
+
+    /**
+     * Interface for chippin hash specific fields
+     * @var array
+     */
+    protected $_orderHashFields = array(
+        'merchant_order_id', 'total_amount', 'duration', 'grace_period', 'currency_code'
+    );
+
+
+    /**
+     * Interface for chippin product specific fields
+     * @var array
+     */
+    protected $_chippinProductFields = array(
+        'label', 'image', 'amount'
+    );
+
+
     public function __construct(Merchant $merchant)
     {
         $this->merchant = $merchant;
@@ -18,17 +44,21 @@ class Chippin
     }
 
     /**
-    * merchant_secret + merchant_id + merchant_order_id + total_amount + duration + currency_code
-    *
-    */
+     * Generate a hash from the required query params to authenticate the order
+     *
+     * @return String
+     *
+     */
     public function generateOrderHash($data)
     {
         $hashParts =  array();
-        $hashParts[] = $data['merchant_id'];
-        $hashParts[] = $data['merchant_order_id'];
-        $hashParts[] = $data['total_amount'];
-        $hashParts[] = $data['duration'];
-        $hashParts[] = $data['currency_code'];
+        $hashParts[] = $this->merchant->getId();
+        foreach ($this->_orderHashFields as $field) {
+            if (empty($data[$field])) {
+                throw new \Exception(sprintf('The value for %s must be passed to generate the hmac hash', $field));
+            }
+            $hashParts[] = $data[$field];
+        }
 
         return $this->generateHash(join($hashParts));
     }

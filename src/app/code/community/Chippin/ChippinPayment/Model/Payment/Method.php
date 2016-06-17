@@ -6,7 +6,7 @@ use Chippin\SDK\Chippin;
 class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Method_Abstract {
 
     protected $_code  = 'chippinpayment';
-    protected $_formBlockType = 'chippinpayment/form_payment';
+    // protected $_formBlockType = 'chippinpayment/form_payment';
     // protected $_infoBlockType = 'chippinpayment/info_payment';
 
     /**
@@ -25,22 +25,13 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
      */
     protected $_config = null;
 
-    /**
-     * Interface for chippin creation specific fields
-     * @var array
-     */
-    protected $_chippinFields = array(
-        'merchant_id', 'merchant_order_id', 'total_amount', 'first_name', 'last_name', 'email', 'duration', 'currency_code', 'hmac', 'products[]'
-    );
+    protected $_chippin;
 
-    /**
-     * Interface for chippin product specific fields
-     * @var array
-     */
-    protected $_chippinProductFields = array(
-        'label', 'image', 'amount'
-    );
-
+    public function _construct()
+    {
+        parent::_construct();
+        $this->_chippin = new Chippin(new Merchant($this->getConfig()->getMerchantId(), $this->getConfig()->getSecret()));
+    }
     /**
      * Return Order place redirect url
      *
@@ -60,9 +51,9 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
      */
     public function initialize($paymentAction, $stateObject)
     {
-        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $state = Mage_Sales_Model_Order::STATE_NEW;
         $stateObject->setState($state);
-        $stateObject->setStatus('chippin_pending_payment');
+        $stateObject->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_NEW);
         $stateObject->setIsNotified(false);
 
         return $this;
@@ -124,6 +115,7 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
             'last_name' => $order->getCustomerLastname(),
             'email' => $order->getCustomerEmail(),
             'duration' => $this->getConfig()->getDuration(),
+            'grace_period' => $this->getConfig()->getGracePeriod(),
             'currency_code' => $currencyCode,
             'hmac' => '',
             'products' => array()
@@ -155,110 +147,9 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
 
     private function decorateWithHash($data)
     {
-        $data['hmac'] = $this->generateOrderHash($data, $this->getConfig()->getSecret());
+        $data['hmac'] = $this->_chippin->generateOrderHash($data);
 
         return $data;
     }
 
-    /**
-    * merchant_secret + merchant_id + merchant_order_id + total_amount + duration + currency_code
-    *
-    */
-    private function generateOrderHash($data, $secret)
-    {
-        $hashParts =  array();
-        $hashParts[] = $data['merchant_id'];
-        $hashParts[] = $data['merchant_order_id'];
-        $hashParts[] = $data['total_amount'];
-        $hashParts[] = $data['duration'];
-        $hashParts[] = $data['currency_code'];
-
-        return $this->generateHash(join($hashParts), $secret);
-    }
-
-    private function generateHash($string, $secret)
-    {
-        return hash_hmac('sha256', $string, $secret);
-    }
-
-
-//     /**
-//  *
-//  * Extract cart/quote details and send to api.
-//  * Respond with token
-//  * @throws Mage_Exception
-//  * @throws Exception
-//  */
-// protected  function _customBeginPayment(){
-//     //Retrieve cart/quote information.
-//     $sessionCheckout = Mage::getSingleton('checkout/session');
-//     $quoteId = $sessionCheckout->getQuoteId();
-//     $sessionCheckout->setData('chippinQuoteId',$quoteId);
-//
-//     $quote = Mage::getModel("sales/quote")->load($quoteId);
-//     $grandTotal = $quote->getData('grand_total');
-//     $subTotal = $quote->getSubtotal();
-//     $shippingHandling = ($grandTotal-$subTotal);
-//
-//     $billingData = $quote->getBillingAddress()->getData();
-//
-//     $apiEmail = $billingData['email'];
-//
-//     //Retrieve items from the quote.
-//     $items = $quote->getItemsCollection()->getItems();
-//     $productsArray = array();
-//     foreach($items as $item){
-//         $productsArray[] = $item->getName();
-//         $productsArray[] = 'http://purelinemedical.com/wp-content/uploads/2015/10/demo-prod-grey_1.png';
-//         $productsArray[] = $item->getPrice() * $item->getQty();
-//     }
-//
-//     //Add Shipping as line item so total matches magento's charge.
-//     if($shippingHandling > 0){
-//         $productsArray[] = 'Shipping and Handling';
-//         $productsArray[] = null;
-//         $productsArray[] = $shippingHandling;
-//     }
-//
-//     // Build urls back to our modules controller actions as required by the api.
-//     // $oUrl = Mage::getModel('core/url');
-//     // $apiHrefSuccess = $oUrl->getUrl("mockpay/standard/success");
-//     // $apiHrefFailure = $oUrl->getUrl("mockpay/standard/failure");
-//     // $apiHrefCancel = $oUrl->getUrl("mockpay/standard/cancel");
-//
-//
-//
-//     return $this;
-// }
-
-    // public function validate()
-    // {
-    //     parent::validate();
-    //     $info = $this->getInfoInstance();
-    //
-    //     if (!$info->getFirstName())
-    //     {
-    //         $errorCode = 'invalid_data';
-    //         $errorMsg = $this->_getHelper()->__("First name is a required field.\n");
-    //     }
-    //
-    //     if (!$info->getLastName())
-    //     {
-    //         $errorCode = 'invalid_data';
-    //         $errorMsg .= $this->_getHelper()->__('Last name is a required field.');
-    //     }
-    //
-    //     if (!$info->getEmail())
-    //     {
-    //         $errorCode = 'invalid_data';
-    //         $errorMsg .= $this->_getHelper()->__('Email is a required field.');
-    //     }
-    //
-    //     if ($errorMsg)
-    //     {
-    //         Mage::throwException($errorMsg);
-    //     }
-    //
-    //     return $this;
-    // }
 }

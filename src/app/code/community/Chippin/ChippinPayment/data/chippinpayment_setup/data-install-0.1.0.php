@@ -4,43 +4,61 @@ $connection = $installer->getConnection();
 $installer->startSetup();
 
 $data = array(
-    array('status' => 'chippin_pending_payment', 'label' => 'Chippin Pending'),
-    array('status' => 'chippin_pending_completion', 'label' => 'Chippin Incomplete'),
-    array('status' => 'chippin_complete', 'label' => 'Chippin Complete'),
-    array('status' => 'chippin_rejected', 'label' => 'Chippin Rejected'),
-    array('status' => 'chippin_timedout', 'label' => 'Chippin Timed Out'),
-    array('status' => 'chippin_canceled', 'label' => 'Chippin Canceled')
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_NEW, 'label' => 'Chippin New'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_INVITED, 'label' => 'Chippin Invited'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_CONTRIBUTED, 'label' => 'Chippin Contributed'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_REJECTED, 'label' => 'Chippin Rejected'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_COMPLETED, 'label' => 'Chippin Completed'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_PAID, 'label' => 'Chippin Paid'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_FAILED, 'label' => 'Chippin Failed'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_CANCELED, 'label' => 'Chippin Canceled'),
+    array('status' => Chippin_ChippinPayment_Model_Order::STATUS_TIMEDOUT, 'label' => 'Chippin Timed Out')
 );
 
 $mappingData = array(
     array(
-        'status' => 'chippin_pending_payment',
-        'state' => 'pending_payment',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_NEW,
+        'state' => Mage_Sales_Model_Order::STATE_NEW,
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_pending_completion',
-        'state' => 'pending_payment',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_INVITED,
+        'state' => Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_complete',
-        'state' => 'processing',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_CONTRIBUTED,
+        'state' => Mage_Sales_Model_Order::STATE_PROCESSING,
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_rejected',
-        'state' => 'holded',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_REJECTED,
+        'state' => Mage_Sales_Model_Order::STATE_HOLDED,
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_timedout',
-        'state' => 'holded',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_COMPLETED,
+        'state' => Mage_Sales_Model_Order::STATE_PROCESSING,
         'is_default' => 0
     ),
     array(
-        'status' => 'chippin_cancelled',
-        'state' => 'canceled',
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_PAID,
+        'state' => Mage_Sales_Model_Order::STATE_PROCESSING,
+        'is_default' => 0
+    ),
+    array(
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_FAILED,
+        'state' => Mage_Sales_Model_Order::STATE_HOLDED,
+        'is_default' => 0
+    ),
+    array(
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_CANCELED,
+        'state' => Mage_Sales_Model_Order::STATE_CANCELED,
+        'is_default' => 0
+    ),
+    array(
+        'status' => Chippin_ChippinPayment_Model_Order::STATUS_TIMEDOUT,
+        'state' => Mage_Sales_Model_Order::STATE_CANCELED,
         'is_default' => 0
     )
 );
