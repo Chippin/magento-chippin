@@ -1,0 +1,15 @@
+default:
+  extensions:
+    Lakion\Behat\MinkDebugExtension:
+      directory: ./debug
+      screenshot: true
+      clean_start: true
+    Behat\MinkExtension:
+      base_url: http://chip2016.store.magecloud.net
+      browser_name: chrome
+      selenium2: ~
+    SensioLabs\Behat\PageObjectExtension: ~
+uat:
+  extensions:
+    Behat\MinkExtension:
+      base_url: http://chip2016.store.magecloud.net

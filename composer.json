@@ -1,0 +1,30 @@
+{
+    "name": "chippin/magento-chippin",
+    "description": "Chipping Payments for Magento 1.*",
+    "type": "magento-module",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+    "psr-0": {
+        "": [
+          "src/lib"
+        ]
+      }
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.5",
+        "behat/behat": "^3.1.0",
+        "behat/mink-extension": "^2.2",
+        "sensiolabs/behat-page-object-extension": "^2.0-dev",
+        "squizlabs/php_codesniffer": "*",
+        "magento-ecg/coding-standard": "*",
+        "behat/mink-selenium2-driver": "^1.3",
+        "behat/mink-browserkit-driver": "^1.3",
+        "bossa/phpspec2-expect": "^1.0",
+        "symfony/config": "^2.2",
+        "lakion/mink-debug-extension": "^1.1.0"
+    },
+    "license": "MIT",
+    "require": {}
+}
