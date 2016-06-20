@@ -5,7 +5,7 @@ default:
       screenshot: true
       clean_start: true
     Behat\MinkExtension:
-      base_url: http://chip2016.store.magecloud.net
+      base_url: http://chippin.dev
       browser_name: chrome
       selenium2: ~
     SensioLabs\Behat\PageObjectExtension: ~

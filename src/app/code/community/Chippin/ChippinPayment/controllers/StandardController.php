@@ -58,17 +58,18 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
      */
     public function  invitedAction()
     {
-        $this->isHashValid();
-
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getChippinQuoteId(true));
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
+        $this->isHashValid('invited');
 
         $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
-        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_INVITED, 'Invite(s) sent to contributor(s)');
-        $order->save();
 
-        $this->_redirect('checkout/onepage/success', array('_secure' => true));
+        $message = sprintf('Invite(s) sent to contributor(s)');
+        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_INVITED, $message)
+            ->save();
+
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($order->getQuoteId());
+        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        $this->_redirect('checkout/onepage/success', array('_secure'=>true));
     }
 
     /**
@@ -92,20 +93,17 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
 
         $orderId = $this->getRequest()->getParam('merchant_order_id');
         $contributorEmail = $this->getRequest()->getParam('email');
+        $message = sprintf('Contribution recieved from %s', $contributorEmail);
 
         $order = $this->loadOrder($orderId);
-        $order->addStatusToHistory(
-            Chippin_ChippinPayment_Model_Order::STATUS_CONTRIBUTED,
-            sprintf('Contribution recieved from %s', $contributorEmail)
-        );
-        $order->save();
+        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_CONTRIBUTED, $message)
+            ->save();
 
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($order->getQuoteId());
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
 
         $this->_redirect('checkout/onepage/success', array('_secure' => true));
-
     }
 
     /**
@@ -120,7 +118,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function rejectedAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('rejected');
 
         $orderId = $this->getRequest()->getParam('merchant_order_id');
 
@@ -151,7 +149,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function completedAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('completed');
 
         $orderId = $this->getRequest()->getParam('merchant_order_id');
 
@@ -178,7 +176,29 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function paidAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('paid');
+
+        $orderId = $this->getRequest()->getParam('merchant_order_id');
+
+        $order = $this->loadOrder($orderId);
+
+        $payment = $order->getPayment();
+        $payment->setTransactionId($this-getRequest()->getParam('hmac'))
+            ->setCurrencyCode($order->getBaseCurrencyCode())
+            ->setPreparedMessage('Chippin payment captured')
+            //->setParentTransactionId($parentTransactionId)
+            ->setShouldCloseParentTransaction(1)
+            ->setIsTransactionClosed(1)
+            ->registerCaptureNotification($order->getGrandTotal(), true);
+        $order->save();
+
+        // notify customer
+        $invoice = $payment->getCreatedInvoice();
+        if ($invoice && !$this->_order->getEmailSent()) {
+            $order->queueNewOrderEmail()->addStatusHistoryComment('Notified customer about invoice #%s.', $invoice->getIncrementId())
+            ->setIsCustomerNotified(true)
+            ->save();
+        }
     }
 
     /**
@@ -195,7 +215,15 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function failedAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('failed');
+
+        $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
+        if (!$order) {
+            throw new Exception('Unable to load the order');
+        }
+        $message = sprintf('Chippin payment failed. %s', Chippin_ChippinPayment_Model_Order::STATUS_FAILED);
+        $order->registerCancellation($message, false)
+            ->save();
     }
 
     /**
@@ -211,13 +239,14 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function canceledAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('cancelled');
 
         $session = Mage::getSingleton('checkout/session');
         $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
-        if ($order->getId()) {
-            $order->cancel()->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_CANCELED)->save();
-        }
+        $message = sprintf('Chippin payment cancelled by Instigator');
+        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_CANCELED, $message)
+            ->save();
+        //$order->cancel()->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_CANCELED)->save();
         Mage::helper('chippinpayment/checkout')->restoreQuote($order);
 
         $this->_redirect('checkout/cart');
@@ -236,30 +265,35 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     */
     public function timedoutAction()
     {
-        $this->isHashValid();
+        $this->isHashValid('timed_out');
 
         $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
-        $order->cancel();
-        $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, true, "Chippin payment timed out.", true);
-        $order->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_TIMEDOUT);
-        $order->save();
-
-        $this->_redirect('checkout/onepage/failure', array('_secure' => true));
+        if (!$order) {
+            throw new Exception(sprintf('Unable to load the order id: %s', $this->getRequest()->getParam('merchant_order_id')));
+        }
+        $message = sprintf('Chippin payment failed. %s', Chippin_ChippinPayment_Model_Order::STATUS_FAILED);
+        $order->registerCancellation($message, false)
+            ->save();
     }
 
     protected function loadOrder($orderId)
     {
-        $order = Mage::getSingleton('sales/order');
-        return $order->load($orderId);
+        $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+        if (!$order->getId()) {
+            throw new Exception(sprintf('Unable to retrieve order with increment_id: %s', $orderId));
+        }
+
+        return $order;
     }
 
-    protected function isHashValid()
+    protected function isHashValid($callbackKey)
     {
         $orderId = $this->getRequest()->getParam('merchant_order_id');
-        $hash = $this->getRequest()->getParam('hmac');
+        $hmac = $this->getRequest()->getParam('hmac');
+        $hash = $this->_chippin->generateCallbackHash($callbackKey, $orderId);
 
-
-        if($hash !== $this->_chippin->generateCallbackHash($orderId)) {
+        if($hash !== $hmac) {
+            Mage::logException(new Exception(sprintf('HMAC validation failed for order: %s hmac:%s !== hash:%s', $orderId, $hmac, $hash)));
             throw new Exception('HMAC validation failed');
         }
     }

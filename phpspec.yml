@@ -1,0 +1,4 @@
+suites:
+  sdk_suite:
+    namespace: Chippin\SDK
+    src_path: src/lib

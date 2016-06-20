@@ -38,9 +38,9 @@ class Chippin
     }
 
 
-    public function generateCallbackHash($merchant_order_id)
+    public function generateCallbackHash($callbackKey = 'invited', $merchant_order_id)
     {
-        return $this->generateHash(sprintf('%s%s', $merchant_order_id, $this->merchant->getId()));
+        return $this->generateHash(sprintf('%s%s%s', $callbackKey, $this->merchant->getId(), $merchant_order_id));
     }
 
     /**

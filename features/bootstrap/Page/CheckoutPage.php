@@ -43,21 +43,23 @@ class CheckoutPage extends Page {
         $this->getElement('Ship to this address')->click();
         $this->getElement('Continue to shipping')->click();
         $this->getSession()->wait(
-            10000,
-            "$('#checkout-shipping-method-load')"
+            20000,
+            "$('checkout-shipping-method-load').children.length"
         );
         $this->getElement('Flat shipping')->click();
         $this->getElement('Continue to payment')->click();
         $this->getSession()->wait(
-            10000,
-            "$('#checkout-payment-method-load')"
+            20000,
+            "$('checkout-payment-method-load').children.length"
         );
         $this->getElement('Select Chippin')->click();
         $this->getElement('Continue to confirm')->click();
         $this->getSession()->wait(
-            10000,
-            "$('#checkout-review-load')"
+            20000,
+            "$('checkout-review-load').children.length"
         );
         $this->getElement('Confirm')->click();
+
+        return $this->getPage('Redirect Page');
     }
 }

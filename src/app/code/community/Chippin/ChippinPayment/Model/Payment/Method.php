@@ -5,7 +5,7 @@ use Chippin\SDK\Chippin;
 
 class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Method_Abstract {
 
-    protected $_code  = 'chippinpayment';
+    protected $_code  = Chippin_ChippinPayment_Model_Config::METHOD_CODE;
     // protected $_formBlockType = 'chippinpayment/form_payment';
     // protected $_infoBlockType = 'chippinpayment/info_payment';
 
@@ -27,9 +27,9 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
 
     protected $_chippin;
 
-    public function _construct()
+    public function __construct($params = array())
     {
-        parent::_construct();
+        parent::__construct($params);
         $this->_chippin = new Chippin(new Merchant($this->getConfig()->getMerchantId(), $this->getConfig()->getSecret()));
     }
     /**
@@ -103,9 +103,6 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
         $orderGrandTotal = intval($order->getData('grand_total') * 100);
         $subTotal = intval($order->getSubtotal() * 100);
         $shippingHandling = $grandTotal - $subTotal;
-
-        $merchant = new Merchant($this->getConfig()->getMerchantId(), $this->getConfig()->getSecret());
-        $chippin = new Chippin($merchant);
 
         $fields =  $this->decorateWithHash(array(
             'merchant_id' => $this->getConfig()->getMerchantId(),

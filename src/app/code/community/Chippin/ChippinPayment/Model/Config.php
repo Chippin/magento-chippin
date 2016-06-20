@@ -2,6 +2,8 @@
 
 class Chippin_ChippinPayment_Model_Config {
 
+    const METHOD_CODE = 'chippinpayment';
+
     public function getEndpointUrl()
     {
         return (Mage::getStoreConfig('payment/chippinpayment/sandbox'))? Mage::getStoreConfig('payment/chippinpayment/sandbox_endpoint') : Mage::getStoreConfig('payment/chippinpayment/live_endpoint');
@@ -24,7 +26,7 @@ class Chippin_ChippinPayment_Model_Config {
 
     public function getGracePeriod()
     {
-        return Mage::getStoreConfig('paument/chippinpayment/grace_period');
+        return Mage::getStoreConfig('payment/chippinpayment/grace_period');
     }
 
 }

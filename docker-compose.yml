@@ -1,5 +1,7 @@
 web:
   build: .
+  ports:
+    - "8080:80"
   links:
     - mysql
   env_file:
@@ -13,7 +15,7 @@ mysql:
   env_file:
     - env
 
-selenium:
-  image: selenium/standalone-chrome
-  ports:
-    - "4444:4444"
+#selenium:
+  #image: selenium/standalone-chrome
+  #ports:
+    #- "4444:4444"

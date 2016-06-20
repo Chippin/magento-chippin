@@ -21,6 +21,7 @@
         "magento-ecg/coding-standard": "*",
         "behat/mink-selenium2-driver": "^1.3",
         "behat/mink-browserkit-driver": "^1.3",
+        "behat/mink-goutte-driver": "^1.2.1",
         "bossa/phpspec2-expect": "^1.0",
         "symfony/config": "^2.2",
         "lakion/mink-debug-extension": "^1.1.0"
