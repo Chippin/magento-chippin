@@ -12,6 +12,11 @@ use Page\RedirectPage;
 use Page\InvitedCallback;
 use Page\CanceledCallback;
 use Page\CheckoutSuccessPage;
+use Page\RejectedCallback;
+use Page\CompletedCallback;
+use Page\PaidCallback;
+use Page\FailedCallback;
+use Page\TimedOutCallback;
 
 /**
  * Defines application features from the specific context.
@@ -25,6 +30,11 @@ class FeatureContext implements SnippetAcceptingContext
     private $invited;
     private $canceled;
     private $success;
+    private $rejected;
+    private $completed;
+    private $paid;
+    private $failed;
+    private $timed_out;
 
     private $_merchant_id;
     private $_merchant_secret;
@@ -44,7 +54,12 @@ class FeatureContext implements SnippetAcceptingContext
         RedirectPage $redirect,
         InvitedCallback $invited,
         CanceledCallback $canceled,
-        CheckoutSuccessPage $success
+        CheckoutSuccessPage $success,
+        RejectedCallback $rejected,
+        CompletedCallback $completed,
+        PaidCallback $paid,
+        FailedCallback $failed,
+        TimedOutCallback $timed_out
     )
     {
         $this->product = $product;
@@ -54,14 +69,18 @@ class FeatureContext implements SnippetAcceptingContext
         $this->invited = $invited;
         $this->canceled = $canceled;
         $this->success = $success;
+        $this->rejected = $rejected;
+        $this->completed = $completed;
+        $this->paid = $paid;
+        $this->failed = $failed;
+        $this->timed_out = $timed_out;
     }
 
 	/**
      * @Given :merchant_id and :secret are set
      */
-    public function andAreSet($merchant_id, $merchant_secret)
+    public function setIdandSecret($merchant_id, $merchant_secret)
     {
-        echo sprintf("Setting merchant_secret to: %s", $merchant_secret);
         $this->_merchant_id = $merchant_id;
         $this->_merchant_secret = sprintf('%s', $merchant_secret);
     }
@@ -95,6 +114,19 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
+     * @Then I should be on the :pageName
+     */
+    public function iShouldBeOnThe($pageName)
+    {
+        if (!isset($this->$pageName)) {
+            throw new \RuntimeException(sprintf('Unrecognised page: "%s".', $pageName));
+        }
+
+        if (!$this->$pageName->isOpen()) {
+            throw new \Exception(sprintf('Expected "%s" page to be open', $pageName));
+        }
+    }
+    /**
      * @When users are invited
      */
     public function usersAreInvited()
@@ -104,43 +136,40 @@ class FeatureContext implements SnippetAcceptingContext
             'hmac' => $this->generateHash(sprintf('%s%s%s', 'invited', $this->_merchant_id, $this->_order_id), $this->_merchant_secret)
         );
         $this->invited->open($params);
-        $this->success->isOpen();
     }
 
-	/**
-     * @When the Instigator cancels the transaction
+    /**
+     * @When the chippin payment is :action
      */
-    public function theInstigatorCancelsTheTransaction()
+    public function chippinPaymentCallbackAction($action)
     {
-         $params = array(
+        $params = array(
             'merchant_order_id' => $this->_order_id,
-            'hmac' => $this->generateHash(sprintf('%s%s%s', 'cancelled', $this->_merchant_id, $this->_order_id), $this->_merchant_secret)
+            'hmac' => $this->generateHash(sprintf('%s%s%s', $action, $this->_merchant_id, $this->_order_id), $this->_merchant_secret)
         );
-        $this->canceled->open($params)->isValid();
+        $this->$action->open($params);
     }
 
-	/**
-     * @Then I should be able to select Chippin as a payment method
+    /**
+     * @When contribution is confirmed
      */
-    public function iShouldBeAbleToSelectChippinAsAPaymentMethod2()
+    public function contributionIsConfirmed()
     {
         throw new PendingException();
     }
 
     /**
-     * @Then following confirmation I should be directed to the Chippin payment page
+     * @Then the response should be ok
      */
-    public function followingConfirmationIShouldBeDirectedToTheChippinPaymentPage()
+    public function theResponseShouldBeOk()
     {
         throw new PendingException();
     }
 
-
-    public function generateHash($string, $merchant_secret)
+    private function generateHash($string, $merchant_secret)
     {
-        echo sprintf("Hash generated from string: %s secret: %s \n", $string, $merchant_secret);
         $hash =  hash_hmac('sha256', $string, $merchant_secret);
-        echo sprintf("Hash: %s \n", $hash);
+
         return $hash;
     }
 }

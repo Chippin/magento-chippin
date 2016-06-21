@@ -4,6 +4,7 @@ namespace Page;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\UnexpectedPageException;
 
 class InvitedCallback extends Page {
     protected $path = 'chippin/standard/invited?merchant_order_id={merchant_order_id}&hmac={hmac}';
@@ -11,18 +12,13 @@ class InvitedCallback extends Page {
         'document' => array('xpath' => '/html')
     );
 
-    public function open($params)
+    protected function verifyUrl(array $urlParameters = array())
     {
-        parent::open($params);
-
-        return $this->getPage('Checkout Success Page');
-    }
-
-    public function validate()
-    {
-        $this->getSession()->wait(3000);
-        if ($this->getElement('document')->getHtml() !== 'Success') {
-           throw new \Exception('Unable to validate response');
-        };
+        $successPage = $this->getPage('Checkout Success Page');
+        if ($this->getDriver()->getCurrentUrl() !== $successPage->getUrl()) {
+            throw new UnexpectedPageException(
+                sprintf('Expected to be on "%s" but found "%s" instead', $successPage->getUrl($urlParameters), $this->getDriver()->getCurrentUrl())
+            );
+        }
     }
 }

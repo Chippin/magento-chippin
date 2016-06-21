@@ -5,6 +5,6 @@ namespace Page;
 use Behat\Mink\Exception\ElementNotFoundException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
-class CheckoutSuccessPage extends Page {
-    protected $path = 'checkout/onepage/success/';
+class CheckoutFailurePage extends Page {
+    protected $path = 'checkout/onepage/failure/';
 }

@@ -60,7 +60,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     {
         $this->isHashValid('invited');
 
-        $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
+        $order = $this->loadOrder();
 
         $message = sprintf('Invite(s) sent to contributor(s)');
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_INVITED, $message)
@@ -151,17 +151,14 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     {
         $this->isHashValid('completed');
 
-        $orderId = $this->getRequest()->getParam('merchant_order_id');
-
-        $order = $this->loadOrder($orderId);
-        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_COMPLETED, 'All contributions accepted');
-        $order->save();
+        $order = $this->loadOrder();
+        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_COMPLETED, 'All contributions accepted')
+            ->save();
 
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($order->getQuoteId());
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
-
-        $this->_redirect('checkout/onepage/success', array('_secure' => true));
+        $this->_redirect('checkout/onepage/success', array('_secure'=>true));
     }
 
     /**
@@ -267,17 +264,18 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     {
         $this->isHashValid('timed_out');
 
-        $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
-        if (!$order) {
-            throw new Exception(sprintf('Unable to load the order id: %s', $this->getRequest()->getParam('merchant_order_id')));
-        }
-        $message = sprintf('Chippin payment failed. %s', Chippin_ChippinPayment_Model_Order::STATUS_FAILED);
-        $order->registerCancellation($message, false)
+        $order = $this->loadOrder();
+        $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_TIMEDOUT, 'The Chippin payment timed out', true)
             ->save();
+
+
+        $message = sprintf('Chippin payment failed. %s', Chippin_ChippinPayment_Model_Order::STATUS_FAILED);
+        $order->cancel()->save();
     }
 
-    protected function loadOrder($orderId)
+    protected function loadOrder()
     {
+        $orderId = $this->getRequest()->getParam('merchant_order_id');
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
         if (!$order->getId()) {
             throw new Exception(sprintf('Unable to retrieve order with increment_id: %s', $orderId));
