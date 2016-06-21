@@ -14,7 +14,7 @@ I want to be able to use the Chippin payment method to checkout
 
   Scenario: Contributor makes contribution
     Given the chippin payment is "invited"
-    When contribution is confirmed
+    When contribution is confirmed by 'Joe' 'Bloggs' 'joe@newcustomer.com'
     Then I should be on the "success"
 
   Scenario: Chippin rejects payment
@@ -25,11 +25,10 @@ I want to be able to use the Chippin payment method to checkout
   Scenario: Chippin payment is completed
     Given the chippin payment is "invited"
     When the chippin payment is "completed"
-    Then I should be on the "success"
+    Then the response should be ok
 
   Scenario: Chippin payment is paid
     Given the chippin payment is "invited"
-    And the chippin payment is "completed"
     When the chippin payment is "paid"
     Then the response should be ok
 
@@ -39,7 +38,7 @@ I want to be able to use the Chippin payment method to checkout
     Then I should be on the "failure"
 
   Scenario: Canceled by Instigator
-    When the chippin payment is "canceled"
+    When the chippin payment is "cancelled"
     Then I should be on the "cart"
 
   Scenario: Chippin payment times out

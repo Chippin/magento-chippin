@@ -31,4 +31,10 @@ class ChippinSpec extends ObjectBehavior
         $this->generateCallbackHash('completed', '123')
             ->shouldEqual('2154aa596b0cd14997ae177fec57b9cdc82236e3869ad2af3ba568fc71997bd9');
     }
+
+    function it_should_generate_a_consitent_contribution_hash()
+    {
+        $this->generateContributionHash('123', 'Joe', 'Bloggs', 'joe@newcustomer.com')
+            ->shouldEqual('5ee6ac84844d85ccfaefde12d3450d4c77856013b7c55fce0c5fb1beef179b88');
+    }
 }

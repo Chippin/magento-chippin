@@ -10,6 +10,7 @@ use Page\CartPage;
 use Page\CheckoutPage;
 use Page\RedirectPage;
 use Page\InvitedCallback;
+use Page\ContributedCallback;
 use Page\CanceledCallback;
 use Page\CheckoutSuccessPage;
 use Page\RejectedCallback;
@@ -28,7 +29,8 @@ class FeatureContext implements SnippetAcceptingContext
     private $checkout;
     private $redirect;
     private $invited;
-    private $canceled;
+    private $contributed;
+    private $cancelled;
     private $success;
     private $rejected;
     private $completed;
@@ -53,7 +55,8 @@ class FeatureContext implements SnippetAcceptingContext
         CheckoutPage $checkout,
         RedirectPage $redirect,
         InvitedCallback $invited,
-        CanceledCallback $canceled,
+        ContributedCallback $contributed,
+        CanceledCallback $cancelled,
         CheckoutSuccessPage $success,
         RejectedCallback $rejected,
         CompletedCallback $completed,
@@ -67,7 +70,8 @@ class FeatureContext implements SnippetAcceptingContext
         $this->checkout = $checkout;
         $this->redirect = $redirect;
         $this->invited = $invited;
-        $this->canceled = $canceled;
+        $this->contributed = $contributed;
+        $this->cancelled = $cancelled;
         $this->success = $success;
         $this->rejected = $rejected;
         $this->completed = $completed;
@@ -123,7 +127,7 @@ class FeatureContext implements SnippetAcceptingContext
         }
 
         if (!$this->$pageName->isOpen()) {
-            throw new \Exception(sprintf('Expected "%s" page to be open', $pageName));
+            throw new \RuntimeException('On the wrong page');
         }
     }
     /**
@@ -151,11 +155,22 @@ class FeatureContext implements SnippetAcceptingContext
     }
 
     /**
-     * @When contribution is confirmed
+     * @When contribution is confirmed by :firstName :lastName :email
      */
-    public function contributionIsConfirmed()
+    public function contributionIsConfirmed($firstName, $lastName, $email)
     {
-        throw new PendingException();
+        $params = array(
+            'merchant_order_id' => $this->_order_id,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $email,
+            'hmac' => $this->generateHash(
+                sprintf('contributed%s%s%s%s%s', $this->_merchant_id, $this->_order_id, $firstName, $lastName, $email),
+                $this->_merchant_secret
+            )
+        );
+
+        $this->contributed->open($params);
     }
 
     /**

@@ -6,7 +6,7 @@ use Chippin\SDK\Chippin;
 class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Method_Abstract {
 
     protected $_code  = Chippin_ChippinPayment_Model_Config::METHOD_CODE;
-    // protected $_formBlockType = 'chippinpayment/form_payment';
+    protected $_formBlockType = 'chippinpayment/form_payment';
     // protected $_infoBlockType = 'chippinpayment/info_payment';
 
     /**

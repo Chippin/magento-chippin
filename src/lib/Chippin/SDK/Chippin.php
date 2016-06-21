@@ -37,6 +37,17 @@ class Chippin
         $this->merchant = $merchant;
     }
 
+    public function generateContributionHash($merchant_order_id, $first_name, $last_name, $email)
+    {
+        return $this->generateHash(sprintf(
+            'contributed%s%s%s%s%s',
+            $this->merchant->getId(),
+            $merchant_order_id,
+            $first_name,
+            $last_name,
+            $email
+        ));
+    }
 
     public function generateCallbackHash($callbackKey = 'invited', $merchant_order_id)
     {
