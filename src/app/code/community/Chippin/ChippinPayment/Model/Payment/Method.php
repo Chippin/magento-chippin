@@ -123,20 +123,13 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
         foreach($items as $item) {
 
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
-            array_push($fields['products'], array(
-                'label' => $item->getName(),
-                'image' => $product->getImageUrl(),
-                'amount' => intval($item->getRowTotal() * 100)
-            ));
-        }
-
-        //Add Shipping as line item so total matches magento's charge.
-        if($shippingHandling > 0) {
-            array_push($fields['products'][], array(
-                'label' => 'Shipping and Handling',
-                'image' => null,
-                'amount' => $shippingHandling
-            ));
+            if ($product->getTypeId() == 'simple' ) {
+                 array_push($fields['products'], array(
+                    'label' => $item->getName(),
+                    'image' => $product->getImageUrl(),
+                    'amount' => intval($item->getRowTotal() * 100)
+                ));
+            }
         }
 
         return $fields;

@@ -4,6 +4,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\MinkExtension\Context\MinkContext;
 
 use Page\ProductPage;
 use Page\CartPage;
@@ -22,7 +23,7 @@ use Page\TimedOutCallback;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements SnippetAcceptingContext
+class FeatureContext extends MinkContext implements SnippetAcceptingContext
 {
     private $product;
     private $cart;
@@ -178,7 +179,7 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function theResponseShouldBeOk()
     {
-        throw new PendingException();
+        $this->assertPageContainsText('Success');
     }
 
     private function generateHash($string, $merchant_secret)
@@ -186,5 +187,13 @@ class FeatureContext implements SnippetAcceptingContext
         $hash =  hash_hmac('sha256', $string, $merchant_secret);
 
         return $hash;
+    }
+
+    /**
+     * @Given a testing cookie is set
+     */
+    public function aTestingCookieIsSet()
+    {
+        $this->getSession()->getDriver()->setCookie('automated-testing', 'bitter-sequence-garment-serenity');
     }
 }

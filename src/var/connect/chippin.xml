@@ -1,5 +1,5 @@
 <_>
-   <form_key>4yUdgh07ja3S19Zr</form_key>
+   <form_key>Ld7moajA3Rx33rB5</form_key>
    <name>ChippinPayment</name>
    <channel>community</channel>
    <version_ids>
@@ -13,9 +13,9 @@ At the end of your checkout process, you redirect to Chippin with the basic deta
 Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into any merchant’s online checkout. It enables consumers to easily split the cost of an online transaction safely and securely to their own and the merchant’s benefit.</description>
    <license>Apache 2.0</license>
    <license_uri/>
-   <version>0.1.0</version>
+   <version>0.1.1</version>
    <stability>stable</stability>
-   <notes>Initial stable release</notes>
+   <notes>Removed the sending of shipping lines to the payment gateway.</notes>
    <authors>
       <name>
          <name>Alistair Stead</name>
@@ -44,7 +44,7 @@ Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into an
             <max/>
          </max>
          <files>
-            <files>                    </files>
+            <files>                        </files>
          </files>
       </package>
       <extension>
@@ -101,8 +101,4 @@ Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into an
          <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>

@@ -39,7 +39,9 @@ class Chippin_ChippinPayment_Block_Redirect extends Mage_Core_Block_Abstract
         $html = '<html><body>';
         $html.= $this->__('You will be redirected to the Chippin website in a few seconds.');
         $html.= $form->toHtml();
-        $html.= '<script type="text/javascript">document.getElementById("chippin_standard_checkout").submit();</script>';
+        if (Mage::getModel('core/cookie')->get('automated-testing') !== 'bitter-sequence-garment-serenity') {
+            $html.= '<script type="text/javascript">document.getElementById("chippin_standard_checkout").submit();</script>';
+        }
         $html.= '</body></html>';
 
         return $html;

@@ -10,6 +10,12 @@ docker exec -it $ID install-magento
 docker exec -it $ID link-module
 docker exec -it $ID n98-magerun dev:log --on --global --skip-root-check
 docker exec -it $ID n98-magerun dev:symlinks --on --global --skip-root-check
+docker exec -it $ID n98-magerun config:set cataloginventory/item_options/manage_stock 0 --skip-root-check
+docker exec -it $ID n98-magerun config:set carriers/dhl/active 0 --skip-root-check
+docker exec -it $ID n98-magerun config:set carriers/dhlint/active 0 --skip-root-check
+docker exec -it $ID n98-magerun config:set carriers/ups/active 0 --skip-root-check
+docker exec -it $ID n98-magerun config:set carriers/usps/active 0 --skip-root-check
+docker exec -it $ID n98-magerun config:set carriers/fedex/active 0 --skip-root-check
 docker exec -it $ID n98-magerun config:set payment/chippinpayment/active 1 --skip-root-check
 docker exec -it $ID n98-magerun config:set payment/chippinpayment/sandbox_endpoint https://edge.chippin.co.uk/sandbox/new --skip-root-check
 docker exec -it $ID n98-magerun config:set payment/chippinpayment/live_endpoint https://edge.chippin.co.uk/new --skip-root-check

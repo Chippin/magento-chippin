@@ -20,19 +20,6 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     protected $_config = null;
 
     /**
-     * Config instance getter
-     * @return Chippin_ChippinPayment_Model_Config
-     */
-    protected function getConfig()
-    {
-        if (null === $this->_config) {
-            $this->_config = Mage::getModel('chippinpayment/config');
-        }
-
-        return $this->_config;
-    }
-
-    /**
      * When a customer chooses Paypal on Checkout/Payment page
      *
      */
@@ -66,8 +53,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_INVITED, $message)
             ->save();
 
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody('{"response":"Success"}');
+        $this->sendJsonResponse();
     }
 
     /**
@@ -88,8 +74,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     {
         $this->isContributorHashValid();
 
-        $contributorEmail = $this->getRequest()->getParam('email');
-        $message = sprintf('Contribution recieved from %s', $contributorEmail);
+        $message = sprintf('Contribution recieved from %s', $this->getEmail());
 
         $order = $this->loadOrder();
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_CONTRIBUTED, $message)
@@ -186,8 +171,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
                 ->save();
         }
 
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody('{"response":"Success"}');
+        $this->sendJsonResponse();
     }
 
     /**
@@ -206,7 +190,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     {
         $this->isHashValid('failed');
 
-        $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
+        $order = $this->loadOrder();
         if (!$order) {
             throw new Exception('Unable to load the order');
         }
@@ -214,6 +198,8 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_FAILED, $message)
             ->registerCancellation($message, false)
             ->save();
+
+        $this->sendJsonResponse();
     }
 
     /**
@@ -232,11 +218,10 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $this->isHashValid('cancelled');
 
         $session = Mage::getSingleton('checkout/session');
-        $order = $this->loadOrder($this->getRequest()->getParam('merchant_order_id'));
+        $order = $this->loadOrder();
         $message = sprintf('Chippin payment cancelled by Instigator');
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_CANCELED, $message)
             ->save();
-        //$order->cancel()->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_CANCELED)->save();
         Mage::helper('chippinpayment/checkout')->restoreQuote($order);
 
         $this->_redirect('checkout/cart');
@@ -258,17 +243,62 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $this->isHashValid('timed_out');
 
         $order = $this->loadOrder();
+        $order->setState(Mage_Sales_Model_Order::STATE_HOLDED, true, 'Chippin payment has been rejected.', true);
         $order->addStatusToHistory(Chippin_ChippinPayment_Model_Order::STATUS_TIMEDOUT, 'The Chippin payment timed out', true)
             ->save();
 
-
-        $message = sprintf('Chippin payment failed. %s', Chippin_ChippinPayment_Model_Order::STATUS_FAILED);
         $order->cancel()->save();
+
+        $this->sendJsonResponse();
     }
 
-    protected function loadOrder()
+    /**
+     * Config instance getter
+     * @return Chippin_ChippinPayment_Model_Config
+     */
+    private function getConfig()
     {
-        $orderId = $this->getRequest()->getParam('merchant_order_id');
+        if (null === $this->_config) {
+            $this->_config = Mage::getModel('chippinpayment/config');
+        }
+
+        return $this->_config;
+    }
+
+    private function sendJsonResponse($message = 'Success')
+    {
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(sprintf('{"response":"%s"}', $message));
+    }
+
+    private function getHmac()
+    {
+        return $this->getRequest()->getParam('hmac');
+    }
+
+    private function getOrderId()
+    {
+        return $this->getRequest()->getParam('merchant_order_id');
+    }
+
+    private function getFirstName()
+    {
+        return $this->getRequest()->getParam('first_name');
+    }
+
+    private function getLastName()
+    {
+        return $this->getRequest()->getParam('last_name');
+    }
+
+    private function getEmail()
+    {
+        return $this->getRequest()->getParam('email');
+    }
+
+    private function loadOrder()
+    {
+        $orderId = $this->getOrderId();
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
         if (!$order->getId()) {
             throw new Exception(sprintf('Unable to retrieve order with increment_id: %s', $orderId));
@@ -277,13 +307,12 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         return $order;
     }
 
-    protected function isHashValid($callbackKey)
+    private function isHashValid($callbackKey)
     {
-        $orderId = $this->getRequest()->getParam('merchant_order_id');
-        $hmac = $this->getRequest()->getParam('hmac');
+        $orderId = $this->getOrderId();
         $hash = $this->_chippin->generateCallbackHash($callbackKey, $orderId);
 
-        if($hash !== $hmac) {
+        if($hash !== $this->getHmac()) {
             Mage::logException(new Exception(sprintf('HMAC validation failed for order: %s hmac:%s !== hash:%s', $orderId, $hmac, $hash)));
             throw new Exception('HMAC validation failed');
         }
@@ -291,11 +320,11 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
 
     protected function isContributorHashValid()
     {
-        $orderId = $this->getRequest()->getParam('merchant_order_id');
-        $first_name = $this->getRequest()->getParam('first_name');
-        $last_name = $this->getRequest()->getParam('last_name');
-        $email = $this->getRequest()->getParam('email');
-        $hmac = $this->getRequest()->getParam('hmac');
+        $orderId = $this->getOrderId();
+        $first_name = $this->getFirstName();
+        $last_name = $this->getLastName();
+        $email = $this->getEmail();
+        $hmac = $this->getHmac();
         $hash = $this->_chippin->generateContributionHash($orderId, $first_name, $last_name, $email);
 
         if($hash !== $hmac) {
