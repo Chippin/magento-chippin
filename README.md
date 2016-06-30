@@ -48,5 +48,8 @@ contributors.
 * Sort Order - The integer value entered here allows you to control the order in which all the
   payment options are displayed within the Magento checkout.
 * Title - The title of the payment method in the checkout.
+* Description - The description text displayed within the checkout form.
+* Redirection Message - The message displayed in the checkout form that explains what will happen
+  following confirmation of the order.
 * Duration - This is the number of hours you wish the ‘chippin’ to last before it times out.
 * Grace Period - This is the number of hours you wish to give the user to complete a chippin after the timeout period.
