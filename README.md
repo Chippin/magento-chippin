@@ -1,23 +1,23 @@
-# Magento 1.x Chippin Payment module
+# Magento 1.x Chippin Payment Module
 
 Chippin is a shared payment gateway that allows you, the merchant, the ability to offer group buying for a single order. This means that a customer can split the cost of a purchase with their friends/family.
 
-At the end of your checkout process, you redirect to Chippin with the basic details of the customer and your own unique order reference. At this point, the customer can invite their friends and family to ‘chippin’ for the item(s) they are purchasing.
+At the end of your checkout process, you redirect to Chippin with the basic details of the customer and your own unique order reference. At this point, the customer can invite their friends and family to chip in (to chip in as a verb / a ‘chippin’ as a noun / Chippin as the business) for the item(s) they are purchasing.
 
 Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into any merchant’s online checkout. It enables consumers to easily split the cost of an online transaction safely and securely to their own and the merchant’s benefit.
 
 ## Install
 
-To install the module you should upload the supplied ChippingPayment-x.x.x.tgz using the Magento
-Connect Manager interface. Alternatively f you are familiar with Magento module development you can extract the contents of the package and place them
+To install the module you should upload the supplied ChippinPayment-x.x.x.tgz using the Magento
+Connect Manager interface. Alternatively if you are familiar with Magento module development you can extract the contents of the package and place them
 into the correct locations within your Magento install directory.
 
 Once you have installed the module it will provide a number of configuration options in your Magento
-administration interface along side all other installed payment modules. It will display the
-callback URLS that you will need to enter in the [Chippin system configuration panel](https://chippin.co.uk/admin). These URLs allow CHippin to update the status of the order or route the Instigator or Contributors to appropriate content during all the stages of the Chippin payment.
+administration interface alongside all other installed payment modules. It will display the
+callback URLS that you will need to enter in the [Chippin system configuration panel](https://chippin.co.uk/admin). These URLs allow Chippin to update the status of the order or route the Instigator or Contributors to appropriate content during all the stages of the Chippin payment.
 
-During initial install you can use the sandbox functionality to validate that all functionlity is
-working the way that you expected. In sandbox mode you can use fake card details from the list of [Stripe test card](https://stripe.com/docs/testing). **Ensure that you turn off the use of sandbox before you male this
+During initial install you can use the sandbox functionality to validate that all functionality is
+working the way that you expected. In sandbox mode you can use fake card details from the list of [Stripe test card](https://stripe.com/docs/testing). **Ensure that you turn off the use of sandbox before you make this
 module available to customers.**
 
 **You can also configure the URL endpoints of Chippin. You should only do this when directed by your
@@ -26,7 +26,7 @@ customers.**
 
 ## Functionality
 
-The module will create a number of specific order status that will be used to track the progress of
+The module will create a number of specific order statuses that will be used to track the progress of
 the order through the extended asynchronous payment flow with Chippin. You should ensure that you
 correctly filter orders that use the Chippin payment method when passing the details to your fulfillment system. You should only consider orders with the status label of "Chippin Paid" status code of "chippin_paid" to be paid in full and ready to dispatch.
 
