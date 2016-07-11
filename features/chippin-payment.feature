@@ -16,12 +16,12 @@ I want to be able to use the Chippin payment method to checkout
   Scenario: Contributor makes contribution
     Given the chippin payment is "invited"
     When contribution is confirmed by 'Joe' 'Bloggs' 'joe@newcustomer.com'
-    Then I should be on the "success"
+    Then I should be on the "chippin_contributed"
 
   Scenario: Chippin rejects payment
     Given the chippin payment is "invited"
     When the chippin payment is "rejected"
-    Then I should be on the "failure"
+    Then I should be on the "chippin_declined"
 
   Scenario: Chippin payment is completed
     Given the chippin payment is "invited"

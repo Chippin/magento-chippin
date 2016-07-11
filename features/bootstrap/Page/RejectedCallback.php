@@ -10,7 +10,7 @@ class RejectedCallback extends Page {
 
     protected function verifyUrl(array $urlParameters = array())
     {
-        $page = $this->getPage('Checkout Failure Page');
+        $page = $this->getPage('Chippin Declined Page');
         if ($this->getDriver()->getCurrentUrl() !== $page->getUrl()) {
             throw new UnexpectedPageException(
                 sprintf('Expected to be on "%s" but found "%s" instead', $page->getUrl($urlParameters), $this->getDriver()->getCurrentUrl())

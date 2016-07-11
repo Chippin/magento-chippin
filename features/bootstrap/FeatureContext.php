@@ -19,6 +19,8 @@ use Page\CompletedCallback;
 use Page\PaidCallback;
 use Page\FailedCallback;
 use Page\TimedOutCallback;
+use Page\ChippinContributedPage;
+use Page\ChippinDeclinedPage;
 
 /**
  * Defines application features from the specific context.
@@ -38,6 +40,8 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     private $paid;
     private $failed;
     private $timed_out;
+    private $chippin_contributed;
+    private $chippin_declined;
 
     private $_merchant_id;
     private $_merchant_secret;
@@ -63,7 +67,9 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         CompletedCallback $completed,
         PaidCallback $paid,
         FailedCallback $failed,
-        TimedOutCallback $timed_out
+        TimedOutCallback $timed_out,
+        ChippinContributedPage $chippin_contributed,
+        ChippinDeclinedPage $chippin_declined
     )
     {
         $this->product = $product;
@@ -79,6 +85,8 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $this->paid = $paid;
         $this->failed = $failed;
         $this->timed_out = $timed_out;
+        $this->chippin_contributed = $chippin_contributed;
+        $this->chippin_declined = $chippin_declined;
     }
 
 	/**

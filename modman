@@ -1,4 +1,5 @@
 src/app/code/community/Chippin/ChippinPayment app/code/community/Chippin/ChippinPayment
+src/app/design/frontend/base/default/layout/chippin.xml app/design/frontend/base/default/layout/chippin.xml
 src/app/design/frontend/base/default/template/chippinpayment app/design/frontend/base/default/template/chippinpayment
 src/app/design/adminhtml/default/default/template/chippinpayment app/design/adminhtml/default/default/template/chippinpayment
 src/app/etc/modules/Chippin_ChippinPayment.xml app/etc/modules/Chippin_ChippinPayment.xml

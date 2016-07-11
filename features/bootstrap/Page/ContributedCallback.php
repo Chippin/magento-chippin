@@ -10,7 +10,7 @@ class ContributedCallback extends Page {
 
    protected function verifyUrl(array $urlParameters = array())
     {
-        $page = $this->getPage('Checkout Success Page');
+        $page = $this->getPage('Chippin Contributed Page');
         if ($this->getDriver()->getCurrentUrl() !== $page->getUrl()) {
             throw new UnexpectedPageException(
                 sprintf('Expected to be on "%s" but found "%s" instead', $page->getUrl($urlParameters), $this->getDriver()->getCurrentUrl())

@@ -2,12 +2,13 @@
 <config>
     <modules>
         <Chippin_ChippinPayment>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
         </Chippin_ChippinPayment>
     </modules>
     <frontend>
         <secure_url>
             <chippin_standard>/chippin/standard</chippin_standard>
+            <chippin_checkout>/chippin/checkout</chippin_checkout>
         </secure_url>
         <routers>
             <chippinpayment>
@@ -21,7 +22,7 @@
 		<layout>
 		    <updates>
 			    <chippinpayment>
-			        <file>chippinpayment.xml</file>
+			        <file>chippin.xml</file>
 			    </chippinpayment>
 		    </updates>
         </layout>

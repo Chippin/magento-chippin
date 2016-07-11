@@ -42,7 +42,7 @@ class CheckoutPage extends Page {
         $this->getElement('Billing telephone')->setValue('07788107333');
         $this->getElement('Ship to this address')->click();
         $this->getElement('Continue to shipping')->click();
-        $this->getSession()->wait(1000);
+        $this->getSession()->wait(2000);
         //$this->getSession()->wait(
             //20000,
             //"$('checkout-shipping-method-load').children.length"

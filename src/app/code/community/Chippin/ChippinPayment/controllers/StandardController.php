@@ -84,7 +84,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $session->setQuoteId($order->getQuoteId());
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 
-        $this->_redirect('checkout/onepage/success', array('_secure' => true));
+        $this->_redirect('chippin/checkout/contributed', array('_secure' => true));
     }
 
     /**
@@ -113,7 +113,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
         $session->setQuoteId($order->getQuoteId());
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 
-        $this->_redirect('checkout/onepage/failure', array('_secure' => true));
+        $this->_redirect('chippin/checkout/declined', array('_secure' => true));
     }
 
     /**

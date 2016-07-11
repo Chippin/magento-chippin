@@ -1,0 +1,8 @@
+<div class="page-title">
+    <h1><?php echo $this->__('Thanks for chipping in.') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Continue Shopping')) ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
