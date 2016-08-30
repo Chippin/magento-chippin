@@ -22,6 +22,7 @@ class Chippin_ChippinPayment_Block_Adminhtml_System_Config_Fieldset_Hint
             'Contributed' => $oUrl->getUrl("chippin/standard/contributed", $params),
             'Failed' => $oUrl->getUrl("chippin/standard/failed", $params),
             'Invited' => $oUrl->getUrl("chippin/standard/invited", $params),
+            'Paid' => $oUrl->getUrl("chippin/standard/paid", $params),
             'Rejected' => $oUrl->getUrl("chippin/standard/rejected", $params),
             'Timed Out' => $oUrl->getUrl("chippin/standard/timedout", $params)
         );
