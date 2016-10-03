@@ -4,15 +4,22 @@
 <div class="chippin-payment-notice">
     <?php echo Mage::helper('chippinpayment')->__('Not yet got a Chippin account? Click <a href="%s" target="_blank">here</a> to register.', $this->getSignupLink()); ?>
 </div>
+<br/>
 <?php
     endif;
 ?>
+<hr/>
 <ul>
    <li>
-        <strong>Integrtion Urls</strong><br/>
-        Enter these into the Chippin configuration screen.
-    </li>
+        <strong>Example Integrtion Callback Urls</strong><br/>
+        Enter these into the Chippin configuration screen. <strong>These examples assume that the module is enabled on the default store.</strong> <em>If this is not the case then you should configure the callback URLs to match your specific configuration.</em><br/><br/>
     <?php foreach ($this->getIntegrationUrls() as $label => $url) { ?>
     <li><?php echo $label; ?>: <?php echo $url; ?></li>
     <?php } ?>
 </ul>
+<br/>
+<hr/>
+<br/>
+<p><strong>Installed version of the Chippin integration <?php echo Mage::helper('chippinpayment')->getExtensionVersion() ?></strong></p>
+<br/>
+<hr/>

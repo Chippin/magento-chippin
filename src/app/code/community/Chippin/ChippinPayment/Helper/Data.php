@@ -26,4 +26,9 @@ class Chippin_ChippinPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_config;
     }
 
+    public function getExtensionVersion()
+    {
+        return (string) Mage::getConfig()->getNode()->modules->Chippin_ChippinPayment->version;
+    }
+
 }
