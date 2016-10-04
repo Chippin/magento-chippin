@@ -1,5 +1,5 @@
 <_>
-   <form_key>OrebnXBE8CaGFAq6</form_key>
+   <form_key>EsayTRGT1aS9mb36</form_key>
    <name>chippinpayments</name>
    <channel>community</channel>
    <version_ids>
@@ -13,11 +13,9 @@ At the end of your checkout process, you redirect to Chippin with the basic deta
 Chippin is a simple ‘plug-in’ that integrates quickly and seamlessly into any merchant’s online checkout. It enables consumers to easily split the cost of an online transaction safely and securely to their own and the merchant’s benefit.</description>
    <license>MIT</license>
    <license_uri>https://raw.githubusercontent.com/Chippin/magento-chippin/master/LICENSE</license_uri>
-   <version>0.1.4</version>
+   <version>0.1.5</version>
    <stability>stable</stability>
-   <notes>Add version display to the admin configuration
-Example callback URLs are now based on the default store base_url
-The quotes now remain active until final paid status</notes>
+   <notes>Correct the version number reporting</notes>
    <authors>
       <name>
          <name>Toby Rhodes</name>
@@ -49,7 +47,7 @@ The quotes now remain active until final paid status</notes>
             <max/>
          </max>
          <files>
-            <files>                                           </files>
+            <files>                                             </files>
          </files>
       </package>
       <extension>
@@ -111,8 +109,4 @@ The quotes now remain active until final paid status</notes>
          <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>

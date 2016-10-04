@@ -8,7 +8,6 @@
                 <Mage_Core />
                 <Mage_Payment />
             </depends>
-            <version>0.1.4</version>
         </Chippin_ChippinPayment>
     </modules>
 </config>

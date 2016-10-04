@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Chippin_ChippinPayment>
-            <version>0.1.3</version>
+            <version>0.1.5</version>
         </Chippin_ChippinPayment>
     </modules>
     <frontend>
