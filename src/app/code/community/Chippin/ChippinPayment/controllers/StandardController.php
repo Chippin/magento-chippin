@@ -20,7 +20,7 @@ class Chippin_ChippinPayment_StandardController extends Mage_Core_Controller_Fro
     protected $_config = null;
 
     /**
-     * When a customer chooses Paypal on Checkout/Payment page
+     * When a customer chooses Chippin on Checkout/Payment page
      *
      */
     public function redirectAction()
