@@ -51,9 +51,11 @@ class Chippin_ChippinPayment_Model_Payment_Method extends Mage_Payment_Model_Met
      */
     public function initialize($paymentAction, $stateObject)
     {
-        $state = Mage_Sales_Model_Order::STATE_NEW;
+        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $stateObject->setState($state);
-        $stateObject->setStatus(Chippin_ChippinPayment_Model_Order::STATUS_NEW);
+        $status = $this->getConfig()->getNewOrderStatus();
+        $status = $status? $status : Chippin_ChippinPayment_Model_Order::STATUS_NEW;
+        $stateObject->setStatus($status);
         $stateObject->setIsNotified(false);
 
         return $this;

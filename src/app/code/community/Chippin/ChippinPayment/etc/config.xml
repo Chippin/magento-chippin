@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Chippin_ChippinPayment>
-            <version>0.1.5</version>
+            <version>0.1.6</version>
         </Chippin_ChippinPayment>
     </modules>
     <frontend>
@@ -75,9 +75,9 @@
                 <sandbox>1</sandbox>
                 <sandbox_endpoint>https://chippin.co.uk/sandbox/new</sandbox_endpoint>
                 <live_endpoint>https://chippin.co.uk/new</live_endpoint>
+                <order_status>chippin_new</order_status>
                 <title>Pay by Chippin to share the cost with others</title>
                 <description>You can share the cost of this purchase with others if you choose to pay by Chippin.</description>
-                <redirect_message>You will be redirected to the Chippin website when you place the order.</redirect_message>
                 <duration>48</duration>
                 <grace_period>48</grace_period>
             </chippinpayment>

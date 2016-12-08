@@ -44,4 +44,9 @@ class Chippin_ChippinPayment_Model_Config {
         return Mage::getStoreConfig('payment/chippinpayment/redirect_message');
     }
 
+    public function getNewOrderStatus()
+    {
+        return Mage::getStoreConfig('payment/chippinpayment/order_status');
+    }
+
 }
